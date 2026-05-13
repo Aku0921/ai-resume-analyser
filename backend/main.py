@@ -25,15 +25,8 @@ resume_text = extract_text_from_pdf(pdf_path)
 
 
 # Step 2 — Preprocess text
-processed_resume = preprocess_text(resume_text)
-
-processed_job_description = preprocess_text(job_description)
-
-
-# Convert token lists back into strings
-processed_resume_text = " ".join(processed_resume)
-
-processed_job_text = " ".join(processed_job_description)
+processed_resume_text = resume_text.lower()
+processed_job_text = job_description.lower()
 
 
 # Step 3 — Extract skills

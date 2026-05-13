@@ -26,3 +26,19 @@ def identify_skill_gaps(resume_skills, job_skills):
             missing_skills.append(skill)
 
     return matched_skills, missing_skills
+
+def calculate_skill_match_percentage(
+    matched_skills,
+    job_skills
+):
+
+    if len(job_skills) == 0:
+        return 0
+
+    score = (
+        len(matched_skills)
+        /
+        len(job_skills)
+    ) * 100
+
+    return score

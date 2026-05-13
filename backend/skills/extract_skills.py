@@ -1,4 +1,4 @@
-from skills.skills import SKILLS_DB
+from backend.skills.skills import SKILLS_DB
 
 
 def extract_skills(text):
