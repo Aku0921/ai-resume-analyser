@@ -1,0 +1,20 @@
+SKILLS_DB = [
+    "python",
+    "java",
+    "sql",
+    "machine learning",
+    "deep learning",
+    "tensorflow",
+    "fastapi",
+    "flask",
+    "docker",
+    "git",
+    "postgresql",
+    "rest api",
+    "html",
+    "css",
+    "javascript",
+    "react",
+    "nodejs",
+    "nlp"
+]
