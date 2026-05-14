@@ -1,4 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Form
+
+from fastapi.middleware.cors import CORSMiddleware
+
 import shutil
 
 from backend.parser.extract_text import extract_text_from_pdf
@@ -6,6 +9,10 @@ from backend.parser.extract_text import extract_text_from_pdf
 from backend.preprocessing.preprocess import preprocess_text
 
 from backend.similarity.similarity import calculate_similarity
+
+from backend.similarity.semantic_similarity import (
+    calculate_semantic_similarity
+)
 
 from backend.skills.extract_skills import extract_skills
 
@@ -16,6 +23,21 @@ from backend.insights.skill_gap import (
 
 
 app = FastAPI()
+
+app.add_middleware(
+
+    CORSMiddleware,
+
+    allow_origins=[
+        "http://localhost:3000"
+    ],
+
+    allow_credentials=True,
+
+    allow_methods=["*"],
+
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
@@ -63,6 +85,11 @@ async def analyze_resume(
         processed_job_text
     )
 
+    semantic_score = calculate_semantic_similarity(
+        resume_text,
+        processed_job_text
+    )
+
     # Step 5 — Skill gap analysis
     matched_skills, missing_skills = identify_skill_gaps(
         resume_skills,
@@ -73,14 +100,23 @@ async def analyze_resume(
         job_skills
     )
     final_ats_score = (
-        (ats_score * 0.7)
+        (ats_score * 0.4)
         +
         (skill_match_score * 0.3)
+        +
+        (semantic_score * 0.3)
     )
+
     # Final JSON response
     return {
 
-        "ats_score": round(final_ats_score, 2),
+        "tfidf_score": float(round(ats_score, 2)),
+
+        "semantic_score": float(round(semantic_score, 2)),
+
+        "skill_match_score": float(round(skill_match_score, 2)),
+
+        "final_ats_score": float(round(final_ats_score, 2)),
 
         "matched_skills": matched_skills,
 
