@@ -66,11 +66,22 @@ function App() {
 
     <div className="container">
 
-      <h1 className="title">
+      <div className="hero-section">
 
-        AI Resume Analyzer
+        <h1 className="hero-title">
 
-      </h1>
+          AI Resume Analyzer
+
+        </h1>
+
+        <p className="hero-subtitle">
+
+          Analyze resumes using AI-powered ATS scoring,
+          semantic similarity, and skill matching.
+
+        </p>
+
+      </div>
 
 
       <form
@@ -129,51 +140,42 @@ function App() {
 
           <h2>ATS Analysis Results</h2>
 
-          <div className="score-card">
+          <div className="metrics-grid">
 
-            <p>
-              <strong>TF-IDF Score:</strong>
-              {" "}
-              {result.tfidf_score}
-            </p>
+            <div className="metric-card">
 
-            <p>
-              <strong>Semantic Score:</strong>
-              {" "}
-              {result.semantic_score}
-            </p>
+              <h3>TF-IDF Score</h3>
 
-            <p>
-              <strong>Skill Match Score:</strong>
-              {" "}
-              {result.skill_match_score}
-            </p>
+              <p>{result.tfidf_score.toFixed(2)}%</p>
 
-            <p>
-              <div className="ats-score-section">
+            </div>
 
-                <h3>Final ATS Score</h3>
 
-                <div className="progress-bar">
+            <div className="metric-card">
 
-                  <div
+              <h3>Semantic Score</h3>
 
-                    className="progress-fill"
+              <p>{result.semantic_score.toFixed(2)}%</p>
 
-                    style={{
-                      width: `${result.final_ats_score}%`
-                    }}
+            </div>
 
-                  >
 
-                    {result.final_ats_score}%
+            <div className="metric-card">
 
-                  </div>
+              <h3>Skill Match</h3>
 
-                </div>
+              <p>{result.skill_match_score.toFixed(2)}%</p>
 
-              </div>
-            </p>
+            </div>
+
+
+            <div className="metric-card final-score-card">
+
+              <h3>Final ATS Score</h3>
+
+              <p>{result.final_ats_score.toFixed(2)}%</p>
+
+            </div>
 
           </div>
 
@@ -182,50 +184,72 @@ function App() {
 
             <div className="skills-box">
 
-              <h3>Matched Skills</h3>
+              <h3>✅ Matched Skills</h3>
 
-              <div className="skill-tags">
+              {result.matched_skills.length > 0 ? (
 
-                {result.matched_skills.map(
-                  (skill, index) => (
+                <div className="skill-tags">
 
-                    <span
-                      className="skill-tag matched"
-                      key={index}
-                    >
+                  {result.matched_skills.map(
+                    (skill, index) => (
 
-                      {skill}
+                      <span
+                        className="skill-tag matched"
+                        key={index}
+                      >
 
-                    </span>
-                  )
-                )}
+                        {skill}
 
-              </div>
+                      </span>
+                    )
+                  )}
+
+                </div>
+
+              ) : (
+
+                <p className="empty-message">
+
+                  No matched skills identified.
+
+                </p>
+              )}
 
             </div>
 
 
             <div className="skills-box">
 
-              <h3>Missing Skills</h3>
+              <h3>⚠️ Missing Skills</h3>
 
-              <div className="skill-tags">
+              {result.missing_skills.length > 0 ? (
 
-                {result.missing_skills.map(
-                  (skill, index) => (
+                <div className="skill-tags">
 
-                    <span
-                      className="skill-tag missing"
-                      key={index}
-                    >
+                  {result.missing_skills.map(
+                    (skill, index) => (
 
-                      {skill}
+                      <span
+                        className="skill-tag missing"
+                        key={index}
+                      >
 
-                    </span>
-                  )
-                )}
+                        {skill}
 
-              </div>
+                      </span>
+                    )
+                  )}
+
+                </div>
+
+              ) : (
+
+                <p className="empty-message">
+
+                  No missing skills identified.
+
+                </p>
+              )}
 
             </div>
 
@@ -233,7 +257,7 @@ function App() {
 
           <div className="recommendations">
 
-            <h3>Recommendations</h3>
+            <h3>💡 Recommendations</h3>
 
             {result.missing_skills.length > 0 ? (
 
@@ -269,7 +293,7 @@ function App() {
 
             <div className="feedback-box">
 
-              <h3>Strong Areas</h3>
+              <h3>🚀 Strong Areas</h3>
 
               {result.matched_skills.length > 0 ? (
 
@@ -296,7 +320,7 @@ function App() {
 
             <div className="feedback-box">
 
-              <h3>Areas to Improve</h3>
+              <h3>📈 Areas to Improve</h3>
 
               {result.missing_skills.length > 0 ? (
 

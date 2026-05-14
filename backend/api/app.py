@@ -87,7 +87,7 @@ async def analyze_resume(
 
     semantic_score = calculate_semantic_similarity(
         resume_text,
-        processed_job_text
+        job_description
     )
 
     # Step 5 — Skill gap analysis

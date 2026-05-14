@@ -1,13 +1,15 @@
 # AI Resume Analyzer
 
-An AI-powered ATS (Applicant Tracking System) Resume Analyzer built using Python, NLP, and FastAPI.
+An AI-powered Full-Stack ATS (Applicant Tracking System) Resume Analyzer built using React, FastAPI, NLP, and Transformer-based Semantic Similarity.
 
 The system analyzes resumes against job descriptions by:
 - extracting text from PDF resumes,
 - preprocessing text using NLP techniques,
 - calculating ATS similarity scores,
+- performing semantic similarity analysis using transformers,
 - extracting technical skills,
-- identifying missing skills and skill gaps.
+- identifying missing skills and skill gaps,
+- generating AI-powered ATS insights and recommendations.
 
 ---
 
@@ -30,43 +32,95 @@ The system analyzes resumes against job descriptions by:
 - Cosine similarity calculation
 - ATS match percentage generation
 
+## Semantic Similarity
+- Transformer-based semantic analysis
+- Sentence embeddings using `SentenceTransformers`
+- Meaning-aware resume matching
+- Contextual similarity scoring
+
 ## Skill Extraction
 - Rule-based technical skill extraction
 - Predefined skill database
 - Resume skill identification
 
+## Hybrid ATS Scoring
+Final ATS score is calculated using:
+- TF-IDF similarity
+- Semantic similarity
+- Skill match percentage
+
 ## Missing Skill Detection
 - Detects matched skills
 - Identifies missing job-required skills
-- Generates ATS insights
+- Generates ATS recommendations
+
+## Frontend Dashboard
+- Resume upload interface
+- Job description input
+- ATS score visualization
+- Dashboard-style UI
+- Skill tag visualization
+- Recommendation section
 
 ## FastAPI Backend
-- Backend API setup using FastAPI
 - REST API architecture
-- Swagger API documentation support
+- File upload handling
+- Swagger API documentation
+- Frontend-backend integration
+
+---
+
+# Screenshots
+
+## Homepage
+
+![Homepage](screenshots/homepage.png)
+
+## ATS Analysis Dashboard
+
+![Dashboard](screenshots/dashboard.png)
 
 ---
 
 # Project Architecture
 
 ```text
-Resume PDF
-     ↓
-Text Extraction
-     ↓
+React Frontend
+       ↓
+Axios API Requests
+       ↓
+FastAPI Backend
+       ↓
+Resume Text Extraction
+       ↓
 NLP Preprocessing
-     ↓
+       ↓
 Skill Extraction
-     ↓
-TF-IDF Vectorization
-     ↓
-Cosine Similarity
-     ↓
-ATS Score Generation
-     ↓
-Missing Skill Detection
-     ↓
-ATS Insights
+       ↓
+TF-IDF Similarity
+       ↓
+Semantic Similarity
+       ↓
+Hybrid ATS Scoring
+       ↓
+ATS Insights & Recommendations
+```
+
+---
+
+# Hybrid ATS Scoring Logic
+
+Final ATS Score combines:
+
+- TF-IDF Similarity Score
+- Semantic Similarity Score
+- Skill Match Percentage
+
+```text
+Final ATS Score =
+40% TF-IDF Similarity
++ 30% Semantic Similarity
++ 30% Skill Match Score
 ```
 
 ---
@@ -89,7 +143,8 @@ AI-resume-analyzer/
 │   │   └── setup_nltk.py
 │   │
 │   ├── similarity/
-│   │   └── similarity.py
+│   │   ├── similarity.py
+│   │   └── semantic_similarity.py
 │   │
 │   ├── skills/
 │   │   ├── skills.py
@@ -98,9 +153,17 @@ AI-resume-analyzer/
 │   ├── insights/
 │   │   └── skill_gap.py
 │   │
-│   ├── resumes/
+│   ├── uploads/
 │   │
 │   └── main.py
+│
+├── frontend/
+│   │
+│   ├── src/
+│   │   ├── App.js
+│   │   └── App.css
+│
+├── screenshots/
 │
 ├── requirements.txt
 ├── .gitignore
@@ -111,6 +174,11 @@ AI-resume-analyzer/
 
 # Technologies Used
 
+## Frontend
+- React
+- Axios
+- CSS
+
 ## Backend
 - Python
 - FastAPI
@@ -119,6 +187,8 @@ AI-resume-analyzer/
 ## NLP & AI
 - NLTK
 - scikit-learn
+- Sentence Transformers
+- HuggingFace Transformers
 
 ## Resume Processing
 - pdfplumber
@@ -126,6 +196,7 @@ AI-resume-analyzer/
 ## Similarity Techniques
 - TF-IDF
 - Cosine Similarity
+- Transformer Embeddings
 
 ---
 
@@ -137,11 +208,17 @@ AI-resume-analyzer/
 git clone https://github.com/YOUR_USERNAME/AI-resume-analyzer.git
 ```
 
+---
+
 ## Navigate into Project
 
 ```bash
 cd AI-resume-analyzer
 ```
+
+---
+
+# Backend Setup
 
 ## Create Virtual Environment
 
@@ -151,6 +228,8 @@ cd AI-resume-analyzer
 python -m venv venv
 ```
 
+---
+
 ## Activate Virtual Environment
 
 ### Windows
@@ -159,7 +238,9 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-## Install Dependencies
+---
+
+## Install Backend Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -177,25 +258,53 @@ python backend/preprocessing/setup_nltk.py
 
 ---
 
-# Run ATS Pipeline
-
-```bash
-python backend/main.py
-```
-
----
-
-# Run FastAPI Server
+# Run FastAPI Backend
 
 ```bash
 uvicorn backend.api.app:app --reload
 ```
 
+Backend runs at:
+
+```text
+http://127.0.0.1:8000
+```
+
+---
+
+# Frontend Setup
+
+## Navigate to Frontend
+
+```bash
+cd frontend
+```
+
+---
+
+## Install Frontend Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## Run React Frontend
+
+```bash
+npm start
+```
+
+Frontend runs at:
+
+```text
+http://localhost:3000
+```
+
 ---
 
 # API Documentation
-
-After starting FastAPI server:
 
 Swagger Docs:
 
@@ -209,24 +318,28 @@ http://127.0.0.1:8000/docs
 
 - Resume PDF parsing
 - NLP preprocessing pipeline
-- ATS similarity scoring
+- TF-IDF similarity scoring
+- Transformer-based semantic similarity
+- Hybrid ATS scoring system
 - Skill extraction
 - Missing skill detection
-- FastAPI backend setup
+- AI-powered ATS recommendations
+- Full-stack React + FastAPI integration
+- Dashboard-based UI visualization
 
 ---
 
 # Future Improvements
 
-- Semantic similarity using embeddings
-- Sentence Transformers
-- LLM-powered ATS feedback
-- Resume recommendations
+- LLM-powered resume feedback
+- Resume improvement suggestions using GenAI
 - Job recommendation system
-- Database integration
-- Frontend integration
 - Authentication system
-- Deployment
+- Resume history tracking
+- Database integration
+- Docker deployment
+- Cloud deployment
+- Multi-resume comparison
 
 ---
 
@@ -236,16 +349,11 @@ This project helped in understanding:
 - NLP preprocessing
 - TF-IDF vectorization
 - Cosine similarity
-- Skill extraction
-- Modular backend architecture
+- Semantic embeddings
+- Transformer models
+- Skill extraction systems
+- Hybrid AI scoring systems
 - FastAPI backend development
-- AI pipeline integration
-
----
-
-# Author
-
-Akash V Nair
-
-BTech Computer Science Engineering  
-SCMS School of Engineering and Technology
+- React frontend integration
+- REST APIs
+- Full-stack AI application architecture
