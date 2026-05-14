@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+
 import axios from "axios";
+
+import "./App.css";
+
 
 function App() {
 
@@ -8,6 +12,8 @@ function App() {
   const [jobDescription, setJobDescription] = useState("");
 
   const [result, setResult] = useState(null);
+
+  const [loading, setLoading] = useState(false);
 
 
   const handleSubmit = async (e) => {
@@ -24,6 +30,8 @@ function App() {
     );
 
     try {
+
+      setLoading(true);
 
       const response = await axios.post(
 
@@ -46,57 +54,55 @@ function App() {
       console.error(error);
 
       alert("Error analyzing resume.");
+
+    } finally {
+
+      setLoading(false);
     }
   };
 
 
   return (
 
-    <div style={{ padding: "40px" }}>
+    <div className="container">
 
-      <h1>AI Resume Analyzer</h1>
+      <h1 className="title">
 
-      <form onSubmit={handleSubmit}>
+        AI Resume Analyzer
 
-        <div>
+      </h1>
 
-          <input
 
-            type="file"
+      <form
+        className="form"
+        onSubmit={handleSubmit}
+      >
 
-            accept=".pdf"
+        <input
 
-            onChange={(e) =>
-              setResume(e.target.files[0])
-            }
+          type="file"
 
-          />
+          accept=".pdf"
 
-        </div>
+          onChange={(e) =>
+            setResume(e.target.files[0])
+          }
 
-        <br />
+        />
 
-        <div>
+        <textarea
 
-          <textarea
+          rows="10"
 
-            rows="10"
+          placeholder="Paste Job Description"
 
-            cols="60"
+          value={jobDescription}
 
-            placeholder="Paste Job Description"
+          onChange={(e) =>
+            setJobDescription(e.target.value)
+          }
 
-            value={jobDescription}
-
-            onChange={(e) =>
-              setJobDescription(e.target.value)
-            }
-
-          />
-
-        </div>
-
-        <br />
+        />
 
         <button type="submit">
 
@@ -107,65 +113,214 @@ function App() {
       </form>
 
 
+      {loading && (
+
+        <p className="loading">
+
+          Analyzing Resume...
+
+        </p>
+      )}
+
+
       {result && (
 
-        <div style={{ marginTop: "30px" }}>
+        <div className="results">
 
           <h2>ATS Analysis Results</h2>
 
-          <p>
-            <strong>TF-IDF Score:</strong>
-            {" "}
-            {result.tfidf_score}
-          </p>
+          <div className="score-card">
 
-          <p>
-            <strong>Semantic Score:</strong>
-            {" "}
-            {result.semantic_score}
-          </p>
+            <p>
+              <strong>TF-IDF Score:</strong>
+              {" "}
+              {result.tfidf_score}
+            </p>
 
-          <p>
-            <strong>Skill Match Score:</strong>
-            {" "}
-            {result.skill_match_score}
-          </p>
+            <p>
+              <strong>Semantic Score:</strong>
+              {" "}
+              {result.semantic_score}
+            </p>
 
-          <p>
-            <strong>Final ATS Score:</strong>
-            {" "}
-            {result.final_ats_score}
-          </p>
+            <p>
+              <strong>Skill Match Score:</strong>
+              {" "}
+              {result.skill_match_score}
+            </p>
 
-          <h3>Matched Skills</h3>
+            <p>
+              <div className="ats-score-section">
 
-          <ul>
+                <h3>Final ATS Score</h3>
 
-            {result.matched_skills.map(
-              (skill, index) => (
+                <div className="progress-bar">
 
-                <li key={index}>
-                  {skill}
-                </li>
-              )
+                  <div
+
+                    className="progress-fill"
+
+                    style={{
+                      width: `${result.final_ats_score}%`
+                    }}
+
+                  >
+
+                    {result.final_ats_score}%
+
+                  </div>
+
+                </div>
+
+              </div>
+            </p>
+
+          </div>
+
+
+          <div className="skills-section">
+
+            <div className="skills-box">
+
+              <h3>Matched Skills</h3>
+
+              <div className="skill-tags">
+
+                {result.matched_skills.map(
+                  (skill, index) => (
+
+                    <span
+                      className="skill-tag matched"
+                      key={index}
+                    >
+
+                      {skill}
+
+                    </span>
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+
+            <div className="skills-box">
+
+              <h3>Missing Skills</h3>
+
+              <div className="skill-tags">
+
+                {result.missing_skills.map(
+                  (skill, index) => (
+
+                    <span
+                      className="skill-tag missing"
+                      key={index}
+                    >
+
+                      {skill}
+
+                    </span>
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="recommendations">
+
+            <h3>Recommendations</h3>
+
+            {result.missing_skills.length > 0 ? (
+
+              <ul>
+
+                {result.missing_skills.map(
+                  (skill, index) => (
+
+                    <li key={index}>
+
+                      Learn or improve:
+                      {" "}
+                      <strong>{skill}</strong>
+
+                    </li>
+                  )
+                )}
+
+              </ul>
+
+            ) : (
+
+              <p>
+
+                Excellent match for this role.
+
+              </p>
             )}
 
-          </ul>
+          </div>
 
-          <h3>Missing Skills</h3>
+          <div className="feedback-section">
 
-          <ul>
+            <div className="feedback-box">
 
-            {result.missing_skills.map(
-              (skill, index) => (
+              <h3>Strong Areas</h3>
 
-                <li key={index}>
-                  {skill}
-                </li>
-              )
-            )}
+              {result.matched_skills.length > 0 ? (
 
-          </ul>
+                <ul>
+
+                  {result.matched_skills.map(
+                    (skill, index) => (
+
+                      <li key={index}>
+                        {skill}
+                      </li>
+                    )
+                  )}
+
+                </ul>
+
+              ) : (
+
+                <p>No major strengths identified.</p>
+              )}
+
+            </div>
+
+
+            <div className="feedback-box">
+
+              <h3>Areas to Improve</h3>
+
+              {result.missing_skills.length > 0 ? (
+
+                <ul>
+
+                  {result.missing_skills.map(
+                    (skill, index) => (
+
+                      <li key={index}>
+                        {skill}
+                      </li>
+                    )
+                  )}
+
+                </ul>
+
+              ) : (
+
+                <p>No major gaps identified.</p>
+              )}
+
+            </div>
+
+          </div>
 
         </div>
       )}
