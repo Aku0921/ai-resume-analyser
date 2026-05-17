@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, UploadFile, File, Form
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -49,6 +51,8 @@ async def analyze_resume(
 
     job_description: str = Form(...)
 ):
+
+    os.makedirs("backend/uploads", exist_ok=True)
 
     # Save uploaded file
     file_path = f"backend/uploads/{resume.filename}"
