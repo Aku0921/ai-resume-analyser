@@ -1,7 +1,14 @@
 import re
+import nltk
 from nltk.tokenize import word_tokenize  # type: ignore
 from nltk.corpus import stopwords  # type: ignore
 from nltk.stem import WordNetLemmatizer  # type: ignore
+
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
 
 def preprocess_text(text):
