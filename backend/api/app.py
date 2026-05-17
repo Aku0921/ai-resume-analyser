@@ -10,10 +10,6 @@ from backend.preprocessing.preprocess import preprocess_text
 
 from backend.similarity.similarity import calculate_similarity
 
-from backend.similarity.semantic_similarity import (
-    calculate_semantic_similarity
-)
-
 from backend.skills.extract_skills import extract_skills
 
 from backend.insights.skill_gap import (
@@ -85,11 +81,6 @@ async def analyze_resume(
         processed_job_text
     )
 
-    semantic_score = calculate_semantic_similarity(
-        resume_text,
-        job_description
-    )
-
     # Step 5 — Skill gap analysis
     matched_skills, missing_skills = identify_skill_gaps(
         resume_skills,
@@ -100,19 +91,15 @@ async def analyze_resume(
         job_skills
     )
     final_ats_score = (
-        (ats_score * 0.4)
+        (ats_score * 0.7)
         +
         (skill_match_score * 0.3)
-        +
-        (semantic_score * 0.3)
     )
 
     # Final JSON response
     return {
 
         "tfidf_score": float(round(ats_score, 2)),
-
-        "semantic_score": float(round(semantic_score, 2)),
 
         "skill_match_score": float(round(skill_match_score, 2)),
 
