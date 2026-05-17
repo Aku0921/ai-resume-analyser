@@ -24,9 +24,7 @@ app.add_middleware(
 
     CORSMiddleware,
 
-    allow_origins=[
-        "https://ai-resume-analyser-coral.vercel.app"
-    ],
+    allow_origins=["*"],
 
     allow_credentials=True,
 
