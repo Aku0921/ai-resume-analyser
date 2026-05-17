@@ -153,15 +153,6 @@ function App() {
 
             <div className="metric-card">
 
-              <h3>Semantic Score</h3>
-
-              <p>{result.semantic_score.toFixed(2)}%</p>
-
-            </div>
-
-
-            <div className="metric-card">
-
               <h3>Skill Match</h3>
 
               <p>{result.skill_match_score.toFixed(2)}%</p>
