@@ -314,6 +314,16 @@ http://127.0.0.1:8000/docs
 
 ---
 
+
+## Live Demo
+
+Frontend:
+https://ai-resume-analyser-coral.vercel.app/
+
+Backend API:
+https://ai-resume-analyser-zh5p.onrender.com/docs
+
+
 # Current Capabilities
 
 - Resume PDF parsing
@@ -357,3 +367,4 @@ This project helped in understanding:
 - React frontend integration
 - REST APIs
 - Full-stack AI application architecture
+
