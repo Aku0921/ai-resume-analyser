@@ -35,7 +35,7 @@ function App() {
 
       const response = await axios.post(
 
-        "http://127.0.0.1:8000/analyze-resume",
+        "https://ai-resume-analyser-zh5p.onrender.com/analyze-resume",
 
         formData,
 
